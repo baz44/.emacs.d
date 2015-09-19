@@ -391,6 +391,15 @@
 
 
 
+;; =================================
+;; yasnippet
+;; =================================
+(install-package-and-require 'yasnippet)
+(install-package-and-require 'clojure-snippets)
+(yas-global-mode 1)
+
+
+
 ;; ;; --- clear all buffers and run tests
 ;; (defun current-nrepl-server-buffer ()
 ;;   (let ((nrepl-server-buf (replace-regexp-in-string "connection" "server" (nrepl-current-connection-buffer))))
