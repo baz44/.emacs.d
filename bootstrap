@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+set -e
+
+here="$(dirname "$0")"
+here="$(cd "$here"; pwd)"
+
+if [ ! \( -e "$HOME/.emacs.d" \) ]; then
+  ln -sfv "$here" "${HOME}/.emacs.d"
+fi

@@ -1,0 +1,14 @@
+ac-comphist.dat
+auto-save-list
+backups
+*~
+*.elc
+places
+eshell
+/cider-history
+/.mc-lists.el
+/tramp
+/jabber-conf.el
+emms
+/ido.last
+elpa
