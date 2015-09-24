@@ -82,6 +82,11 @@
 
 
 ;; =================================
+;; self installed packages
+;; =================================
+(add-to-list 'load-path "~/.emacs.d/self_installs/")
+
+;; =================================
 ;; theme
 ;; =================================
 (install-package-and-require 'ample-theme)
@@ -420,6 +425,12 @@
 (install-package-and-require 'yasnippet)
 (install-package-and-require 'clojure-snippets)
 (yas-global-mode 1)
+
+
+;; =================================
+;; multi-scratch
+;; =================================
+(require 'multi-scratch)
 
 
 
