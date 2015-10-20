@@ -434,6 +434,15 @@
 
 
 
+;; =================================
+;; projectile
+;; =================================
+(install-package-and-require 'projectile)
+(projectile-global-mode)
+
+
+
+
 ;; ;; --- clear all buffers and run tests
 ;; (defun current-nrepl-server-buffer ()
 ;;   (let ((nrepl-server-buf (replace-regexp-in-string "connection" "server" (nrepl-current-connection-buffer))))
@@ -480,3 +489,17 @@
 ;;    (concat hipchat-number "_" room "@conf.hipchat.com")
 ;;    hipchat-nickname
 ;;    t))
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages
+   (quote
+    (projectile clj-refactor clojure-snippets yasnippet git-blame clojure-cheatsheet align-cljlet smartparens multiple-cursors idle-highlight-mode hl-sexp ac-cider cider auto-complete expand-region golden-ratio magit git-gutter undo-tree fill-column-indicator ample-theme))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
