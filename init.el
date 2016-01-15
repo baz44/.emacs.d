@@ -457,7 +457,7 @@
 (install-package-and-require 'deft)
 (setq deft-extension "org")
 (setq deft-text-mode 'org-mode)
-(setq deft-directory "~/Dropbox/shared-with-work")
+(setq deft-directory "~/Dropbox/shared-with-work/notes/")
 (setq deft-recursive t)
 (setq deft-use-filename-as-title t)
 (setq deft-auto-save-interval 0)
