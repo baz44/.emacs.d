@@ -451,6 +451,19 @@
   (load-library "sql-indent"))
 
 
+;; ================================
+;; deft
+;; =================================
+(install-package-and-require 'deft)
+(setq deft-extension "org")
+(setq deft-text-mode 'org-mode)
+(setq deft-directory "~/Dropbox/shared-with-work")
+(setq deft-recursive t)
+(setq deft-use-filename-as-title t)
+(setq deft-auto-save-interval 0)
+
+
+
 ;; ;; --- clear all buffers and run tests
 ;; (defun current-nrepl-server-buffer ()
 ;;   (let ((nrepl-server-buf (replace-regexp-in-string "connection" "server" (nrepl-current-connection-buffer))))
