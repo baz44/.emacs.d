@@ -463,6 +463,10 @@
 (setq deft-auto-save-interval 0)
 
 
+;; focus-mode
+;; =================================
+(install-package-and-require 'focus)
+
 
 ;; ;; --- clear all buffers and run tests
 ;; (defun current-nrepl-server-buffer ()
@@ -517,7 +521,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (sql-indent projectile clj-refactor clojure-snippets yasnippet git-blame clojure-cheatsheet align-cljlet smartparens multiple-cursors idle-highlight-mode hl-sexp ac-cider cider auto-complete expand-region golden-ratio magit git-gutter undo-tree fill-column-indicator ample-theme))))
+    (focus focus-mode sql-indent projectile clj-refactor clojure-snippets yasnippet git-blame clojure-cheatsheet align-cljlet smartparens multiple-cursors idle-highlight-mode hl-sexp ac-cider cider auto-complete expand-region golden-ratio magit git-gutter undo-tree fill-column-indicator ample-theme))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
