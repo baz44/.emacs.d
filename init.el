@@ -463,9 +463,11 @@
 (setq deft-auto-save-interval 0)
 
 
+;; =================================
 ;; focus-mode
 ;; =================================
 (install-package-and-require 'focus)
+
 
 
 ;; ;; --- clear all buffers and run tests
