@@ -34,8 +34,11 @@
 ;; disable the scroll-bar
 (setq scroll-bar-mode -1)
 
+;; disable toolbar
+(tool-bar-mode -1)
+
 ;; set font size
-(set-face-attribute 'default nil :height 200)
+(set-face-attribute 'default nil :height 150)
 
 ;; fix the # key
 (fset 'insertPound "#")
@@ -93,7 +96,8 @@
 (install-package-and-require 'ample-theme)
 (load-theme 'ample-flat t t)
 (load-theme 'ample t t)
-(enable-theme 'ample)
+(load-theme 'ample-light t t)
+(enable-theme 'ample-flat)
 
 
 
@@ -440,6 +444,7 @@
 ;; =================================
 (install-package-and-require 'projectile)
 (projectile-global-mode)
+(setq projectile-enable-caching t)
 
 
 
@@ -467,6 +472,15 @@
 ;; focus-mode
 ;; =================================
 (install-package-and-require 'focus)
+
+
+
+;; =================================
+;; tramp support
+;; =================================
+(add-to-list 'load-path "/usr/local/share/emacs/site-lisp/")
+(require 'tramp)
+(setq tramp-default-method "sshx")
 
 
 
