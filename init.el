@@ -62,6 +62,9 @@
 ;; change the highlight colour
 (set-face-attribute 'region nil :background "#666")
 
+;; no bell please
+(setq visible-bell 1)
+
 ;; =================================
 ;; Package
 ;; =================================
