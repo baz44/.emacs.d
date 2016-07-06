@@ -26,7 +26,7 @@
 (setq inhibit-startup-screen t)
 
 ;; disable the menu-bar
-(menu-bar-mode -1)
+(menu-bar-mode 1)
 
 ;; disable the tool-bar
 (setq tool-bar-mode -1)
@@ -60,7 +60,7 @@
 (setq blink-matching-paren-distance nil)
 
 ;; change the highlight colour
-(set-face-attribute 'region nil :background "#666")
+(set-face-attribute 'region nil :background "#FFF")
 
 ;; no bell please
 (setq visible-bell 1)
@@ -71,7 +71,7 @@
 (require 'package)
 
 (add-to-list 'package-archives
-             '("melpa" . "http://melpa.milkbox.net/packages/") t)
+             '("melpa" . "https://stable.melpa.org/packages/") t)
 
 (add-to-list 'package-archives
 	     '("marmalade" . "http://marmalade-repo.org/packages/"))
@@ -132,7 +132,7 @@
 (install-package-and-require 'fill-column-indicator)
 
 ;; show fci after x chars
-(setq fci-rule-column 100)
+(setq fci-rule-column 80)
 
 ;; fci char
 (setq fci-rule-character ?X)
@@ -247,8 +247,8 @@
 ;; =================================
 ;; eldoc
 ;; =================================
-(add-hook 'cider-mode-hook 'cider-turn-on-eldoc-mode)
-(add-hook 'cider-repl-mode-hook 'cider-turn-on-eldoc-mode)
+(add-hook 'cider-mode-hook 'eldoc-mode)
+(add-hook 'cider-repl-mode-hook 'eldoc-mode)
 
 
 
