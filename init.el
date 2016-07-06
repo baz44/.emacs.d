@@ -59,9 +59,6 @@
 ;; maximum distance to scan for a matching parenthesis before giving up
 (setq blink-matching-paren-distance nil)
 
-;; change the highlight colour
-(set-face-attribute 'region nil :background "#FFF")
-
 ;; no bell please
 (setq visible-bell 1)
 
@@ -102,6 +99,8 @@
 (load-theme 'ample-light t t)
 (enable-theme 'ample-flat)
 
+;; change the highlight colour
+(set-face-attribute 'region nil :background "#FFF")
 
 
 ;; =================================
@@ -547,3 +546,6 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
+(put 'upcase-region 'disabled nil)
+(put 'narrow-to-region 'disabled nil)
+(put 'narrow-to-page 'disabled nil)
