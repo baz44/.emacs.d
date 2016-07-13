@@ -90,6 +90,7 @@
 ;; =================================
 (add-to-list 'load-path "~/.emacs.d/self_installs/")
 
+
 ;; =================================
 ;; theme
 ;; =================================
@@ -491,52 +492,6 @@
 (install-package-and-require 'ag)
 
 
-;; ;; --- clear all buffers and run tests
-;; (defun current-nrepl-server-buffer ()
-;;   (let ((nrepl-server-buf (replace-regexp-in-string "connection" "server" (nrepl-current-connection-buffer))))
-;;     (when nrepl-server-buf
-;;       (get-buffer nrepl-server-buf))))
-
-;; (defun clear-buffers ()
-;;   (interactive)
-
-;;   (cider-find-and-clear-repl-buffer)
-
-;;   ;; (with-current-buffer "test.log"
-;;   ;;   (kill-region (point-min) (point-max))
-;;   ;;   (save-buffer))
-
-;;   (with-current-buffer (current-nrepl-server-buffer)
-;;     (kill-region (point-min) (point-max))))
-
-;; (global-set-key (kbd "C-c :") '(lambda ()
-;;                                  (interactive)
-;;                                  (clear-buffers)
-;;                                  (clojure-test-run-tests)
-;;                                  (message "Winning")))
-
-
-
-;; ;; hipchat
-;; ;; (setq ssl-program-name "gnutls-cli"
-;; ;;       ssl-program-arguments '("--insecure" "-p" service host)
-;; ;;       ssl-certificate-verification-policy 1)
-
-;; ;; Connect using jabber.el
-;; ;; M-x jabber-connect <RET>
-
-;; (condition-case nil
-;; 		(load-file "~/.emacs.d/jabber-conf.el")
-;; 	(error (message "no jabber conf loaded")))
-
-;; ;; Join a room
-;; (defun hipchat-join (room)
-;;   (interactive "sRoom name: ")
-;;   (jabber-groupchat-join
-;;    (jabber-read-account)
-;;    (concat hipchat-number "_" room "@conf.hipchat.com")
-;;    hipchat-nickname
-;;    t))
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
