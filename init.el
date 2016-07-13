@@ -485,6 +485,11 @@
 (setq tramp-default-method "sshx")
 
 
+;; =================================
+;; ag
+;; =================================
+(install-package-and-require 'ag)
+
 
 ;; ;; --- clear all buffers and run tests
 ;; (defun current-nrepl-server-buffer ()
