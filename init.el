@@ -492,6 +492,28 @@
 (install-package-and-require 'ag)
 
 
+
+;; =================================
+;; nyan-mode
+;; =================================
+(install-package-and-require 'nyan-mode)
+(nyan-mode t)
+(setq nyan-animate-nyancat t)
+
+
+
+;; =================================
+;; zone-nyan
+;; =================================
+(install-package-and-require 'zone-nyan)
+(setq zone-nyan-term-type 'ascii)
+(setq zone-nyan-gui-type 'text)
+(setq zone-programs [zone-nyan])
+;; screen save timer
+(zone-when-idle 600)
+
+
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
