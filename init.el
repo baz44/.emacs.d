@@ -510,8 +510,16 @@
 (setq zone-nyan-gui-type 'text)
 (setq zone-programs [zone-nyan])
 ;; screen save timer
-(zone-when-idle 600)
+(require 'zone)
+(zone-when-idle 1200)
 
+
+;; =================================
+;; markdown-mode
+;; =================================
+(install-package-and-require 'markdown-mode)
+(custom-set-variables
+ '(markdown-command "/usr/local/bin/markdown"))
 
 
 (custom-set-variables
