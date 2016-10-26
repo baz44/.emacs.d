@@ -465,7 +465,7 @@
 (install-package-and-require 'deft)
 (setq deft-extension "org")
 (setq deft-text-mode 'org-mode)
-(setq deft-directory "~/Dropbox/shared-with-work/notes/")
+(setq deft-directory "~/iCloud/notes/")
 (setq deft-recursive t)
 (setq deft-use-filename-as-title t)
 (setq deft-auto-save-interval 0)
@@ -520,7 +520,6 @@
 (install-package-and-require 'markdown-mode)
 (custom-set-variables
  '(markdown-command "/usr/local/bin/markdown"))
-
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
