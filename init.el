@@ -62,6 +62,14 @@
 ;; no bell please
 (setq visible-bell 1)
 
+
+;; =================================
+;; self installed packages
+;; =================================
+(add-to-list 'load-path "~/.emacs.d/self_installs/")
+
+
+
 ;; =================================
 ;; Package
 ;; =================================
@@ -86,22 +94,27 @@
 
 
 ;; =================================
-;; self installed packages
-;; =================================
-(add-to-list 'load-path "~/.emacs.d/self_installs/")
-
-
-;; =================================
 ;; theme
 ;; =================================
 (install-package-and-require 'ample-theme)
-(load-theme 'ample-flat t t)
-(load-theme 'ample t t)
-(load-theme 'ample-light t t)
-(enable-theme 'ample-flat)
-
-;; change the highlight colour
+;; (load-theme 'ample-flat t t)
+;; (load-theme 'ample t t)
+;; (load-theme 'ample-light t t)
+;; (enable-theme 'ample-flat)
+;; ;; change the highlight colour
 (set-face-attribute 'region nil :background "#FFF")
+
+
+
+;; =================================
+;; color-theme-tomorrow
+;; located in ~/.emacs.d/self_installs/
+;; available options: night, day, night-eighties, night-blue and night-bright
+;; =================================
+(require 'color-theme-tomorrow)
+(color-theme-tomorrow--define-theme night-bright)
+
+
 
 
 ;; =================================
@@ -110,7 +123,7 @@
 (global-linum-mode t)
 
 ;; linum format
-(setq linum-format "%d  ")
+(setq linum-format "%d ")
 
 ;; list of modes that we don't want to show linum for
 (setq linum-disabled-modes-list '(eshell-mode
@@ -533,7 +546,7 @@
 (setq imenu-auto-rescan t)
 (add-hook 'clojure-mode-hook 'imenu-add-menubar-index)
 (install-package-and-require 'imenu-anywhere)
-(global-set-key (kbd "C-i") #'ido-imenu-anywhere)
+(global-set-key (kbd "C-.") #'ido-imenu-anywhere)
 
 
 ;; =================================
