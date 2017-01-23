@@ -178,7 +178,7 @@
 ;; golden ratio
 ;; =================================
 (install-package-and-require 'golden-ratio)
-(golden-ratio-mode t)
+(golden-ratio-mode 1)
 
 
 
@@ -189,11 +189,15 @@
 (ido-mode t)
 (setq ido-enable-flex-matching t)
 
+(install-package-and-require 'ido-vertical-mode)
+(ido-vertical-mode 1)
+
 (global-set-key
  "\M-x"
  (lambda ()
    (interactive) (call-interactively
                   (intern (ido-completing-read "M-x " (all-completions "" obarray 'commandp))))))
+
 
 
 
@@ -520,6 +524,25 @@
 (install-package-and-require 'markdown-mode)
 (custom-set-variables
  '(markdown-command "/usr/local/bin/markdown"))
+
+
+
+;; =================================
+;; imenu and imenu-anywhere
+;; =================================
+(setq imenu-auto-rescan t)
+(add-hook 'clojure-mode-hook 'imenu-add-menubar-index)
+(install-package-and-require 'imenu-anywhere)
+(global-set-key (kbd "C-i") #'ido-imenu-anywhere)
+
+
+;; =================================
+;; doc-view settings
+;; =================================
+(setq doc-view-ghostscript-program "/usr/local/bin/gs")
+
+
+
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
