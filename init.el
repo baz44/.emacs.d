@@ -551,11 +551,20 @@
 (global-set-key (kbd "C-.") #'ido-imenu-anywhere)
 
 
+
+
 ;; =================================
 ;; doc-view settings
 ;; =================================
 (setq doc-view-ghostscript-program "/usr/local/bin/gs")
 
+
+
+
+;; =================================
+;; go-mode
+;; =================================
+(install-package-and-require 'go-mode)
 
 
 
