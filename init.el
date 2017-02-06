@@ -28,14 +28,16 @@
 ;; disable the menu-bar
 (menu-bar-mode 1)
 
-;; disable the tool-bar
-(setq tool-bar-mode -1)
 
-;; disable the scroll-bar
-(setq scroll-bar-mode -1)
+(when (display-graphic-p)
+  ;; disable the tool-bar
+  (setq tool-bar-mode -1)
 
-;; disable toolbar
-(tool-bar-mode -1)
+  ;; disable the scroll-bar
+  (setq scroll-bar-mode -1)
+
+  ;; disable toolbar
+  (tool-bar-mode -1))
 
 ;; set font size
 (set-face-attribute 'default nil :height 150)
