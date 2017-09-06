@@ -94,20 +94,6 @@
     (require p))
 
 
-
-;; =================================
-;; theme
-;; =================================
-(install-package-and-require 'ample-theme)
-;; (load-theme 'ample-flat t t)
-;; (load-theme 'ample t t)
-;; (load-theme 'ample-light t t)
-;; (enable-theme 'ample-flat)
-;; ;; change the highlight colour
-(set-face-attribute 'region nil :background "#FFF")
-
-
-
 ;; =================================
 ;; color-theme-tomorrow
 ;; located in ~/.emacs.d/self_installs/
