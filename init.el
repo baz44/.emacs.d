@@ -108,22 +108,22 @@
 ;; =================================
 ;; Linum
 ;; =================================
-(global-linum-mode t)
+;; (global-linum-mode f)
 
-;; linum format
-(setq linum-format "%d ")
+;; ;; linum format
+;; (setq linum-format "%d ")
 
-;; list of modes that we don't want to show linum for
-(setq linum-disabled-modes-list '(eshell-mode
-				  wl-summary-mode
-				  compilation-mode
-				  cider-repl-mode))
+;; ;; list of modes that we don't want to show linum for
+;; (setq linum-disabled-modes-list '(eshell-mode
+;; 				  wl-summary-mode
+;; 				  compilation-mode
+;; 				  cider-repl-mode))
 
-(defun linum-on ()
-  (unless (or (minibufferp)
-	      (member major-mode linum-disabled-modes-list)
-	      (string-match "*" (buffer-name)))
-    (linum-mode 1)))
+;; (defun linum-on ()
+;;   (unless (or (minibufferp)
+;; 	      (member major-mode linum-disabled-modes-list)
+;; 	      (string-match "*" (buffer-name)))
+;;     (linum-mode 1)))
 
 
 
@@ -246,6 +246,7 @@
 (setq cider-repl-wrap-history t)
 (setq cider-repl-history-size 1000)
 (setq cider-repl-history-file "~/.emacs.d/cider-history")
+(setq nrepl-use-ssh-fallback-for-remote-hosts t)
 
 
 
@@ -407,7 +408,7 @@
 ;; =================================
 ;; clojure-cheatsheet
 ;; =================================
-(install-package-and-require 'clojure-cheatsheet)
+;(install-package-and-require 'clojure-cheatsheet)
 
 
 
@@ -442,9 +443,11 @@
 ;; =================================
 ;; projectile
 ;; =================================
+(setq projectile-keymap-prefix (kbd "C-c p"))
 (install-package-and-require 'projectile)
 (projectile-global-mode)
 (setq projectile-enable-caching t)
+
 
 
 
