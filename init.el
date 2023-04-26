@@ -1,3 +1,4 @@
+
 ;; =================================
 ;; Emacs settings for Basel Farah
 ;; =================================
@@ -26,8 +27,7 @@
 (setq inhibit-startup-screen t)
 
 ;; disable the menu-bar
-(menu-bar-mode 1)
-
+(menu-bar-mode 0)
 
 (when (display-graphic-p)
   ;; disable the tool-bar
@@ -40,7 +40,7 @@
   (tool-bar-mode -1))
 
 ;; set font size
-(set-face-attribute 'default nil :height 150)
+(set-face-attribute 'default nil :height 250)
 
 ;; fix the # key
 (fset 'insertPound "#")
@@ -71,7 +71,6 @@
 (add-to-list 'load-path "~/.emacs.d/self_installs/")
 
 
-
 ;; =================================
 ;; Package
 ;; =================================
@@ -88,6 +87,7 @@
 (unless package-archive-contents
   (package-refresh-contents))
 
+;; helper function to install a package and then install requiring it
 (defun install-package-and-require (p)
   (unless (package-installed-p p)
     (package-install p))
@@ -101,31 +101,6 @@
 ;; =================================
 (require 'color-theme-tomorrow)
 (color-theme-tomorrow--define-theme night-bright)
-
-
-
-
-;; =================================
-;; Linum
-;; =================================
-;; (global-linum-mode f)
-
-;; ;; linum format
-;; (setq linum-format "%d ")
-
-;; ;; list of modes that we don't want to show linum for
-;; (setq linum-disabled-modes-list '(eshell-mode
-;; 				  wl-summary-mode
-;; 				  compilation-mode
-;; 				  cider-repl-mode))
-
-;; (defun linum-on ()
-;;   (unless (or (minibufferp)
-;; 	      (member major-mode linum-disabled-modes-list)
-;; 	      (string-match "*" (buffer-name)))
-;;     (linum-mode 1)))
-
-
 
 ;; =================================
 ;; fill-column-indicator
@@ -143,13 +118,11 @@
 (add-hook 'ruby-mode-hook 'fci-mode)
 
 
-
 ;; =================================
 ;; undo-tree-mode
 ;; =================================
 (install-package-and-require 'undo-tree)
 (global-undo-tree-mode t)
-
 
 
 ;; =================================
@@ -283,7 +256,7 @@
 ;; =================================
 ;; hl-sexp
 ;; =================================
-(install-package-and-require 'hl-sexp)
+(require 'hl-sexp)
 (add-hook 'clojure-mode-hook 'hl-sexp-mode)
 (add-hook 'lisp-mode-hook 'hl-sexp-mode)
 (add-hook 'scheme-mode-hook 'hl-sexp-mode)
@@ -342,14 +315,6 @@
 (add-hook 'scheme-mode-hook 'smartparens-strict-mode)
 (add-hook 'cider-repl-mode-hook 'smartparens-strict-mode)
 (add-hook 'clojure-mode-hook 'smartparens-strict-mode)
-
-
-
-;; =================================
-;; align-cljlet
-;; =================================
-(install-package-and-require 'align-cljlet)
-(global-set-key (kbd "C-c C-a") 'align-cljlet)
 
 
 
@@ -430,6 +395,7 @@
 ;; =================================
 (install-package-and-require 'yasnippet)
 (install-package-and-require 'clojure-snippets)
+(install-package-and-require 'yasnippet-snippets)
 (yas-global-mode 1)
 
 
@@ -494,33 +460,80 @@
 
 
 ;; =================================
-;; nyan-mode
-;; =================================
-(install-package-and-require 'nyan-mode)
-(nyan-mode t)
-(setq nyan-animate-nyancat t)
-
-
-
-;; =================================
-;; zone-nyan
-;; =================================
-(install-package-and-require 'zone-nyan)
-(setq zone-nyan-term-type 'ascii)
-(setq zone-nyan-gui-type 'text)
-(setq zone-programs [zone-nyan])
-;; screen save timer
-(require 'zone)
-(zone-when-idle 1200)
-
-
-;; =================================
 ;; markdown-mode
 ;; =================================
 (install-package-and-require 'markdown-mode)
-(custom-set-variables
- '(markdown-command "/usr/local/bin/markdown"))
 
+;; =================================
+;; exec-path-from-shell
+;; =================================
+(install-package-and-require 'exec-path-from-shell)
+
+(when (memq window-system '(mac ns x))
+  (exec-path-from-shell-initialize))
+
+
+;; =================================
+;; ejc-sql
+;; =================================
+(install-package-and-require 'ejc-sql)
+
+(setq clomacs-httpd-default-port 8090)
+
+(require 'ejc-autocomplete)
+
+(add-hook 'ejc-sql-minor-mode-hook
+          (lambda ()
+            (auto-complete-mode t)
+            (ejc-ac-setup)))
+
+;;(setq ejc-use-flx nil)
+
+
+;; =================================
+;; indivisual command to move to projects
+;; =================================
+(load-file "~/.emacs.d/projects_configs.el")
+
+
+
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(ansi-color-faces-vector
+   [default bold shadow italic underline bold bold-italic bold])
+ '(ansi-color-names-vector
+   (vector "#cccccc" "#f2777a" "#99cc99" "#ffcc66" "#6699cc" "#cc99cc" "#66cccc" "#515151"))
+ '(custom-enabled-themes '(sanityinc-tomorrow-bright))
+ '(custom-safe-themes
+   '("1b8d67b43ff1723960eb5e0cba512a2c7a2ad544ddb2533a90101fd1852b426e" "628278136f88aa1a151bb2d6c8a86bf2b7631fbea5f0f76cba2a0079cd910f7d" "82d2cac368ccdec2fcc7573f24c3f79654b78bf133096f9b40c20d97ec1d8016" "bb08c73af94ee74453c90422485b29e5643b73b05e8de029a6909af6a3fb3f58" "06f0b439b62164c6f8f84fdda32b62fb50b6d00e8b01c2208e55543a6337433a" default))
+ '(fci-rule-color "#515151")
+ '(markdown-command "/usr/local/bin/markdown")
+ '(package-selected-packages
+   '(yasnippet-snippets go-snippets ejc-sql exec-path-from-shell helm-lsp lsp-java which-key lsp-ui company lsp-mode flycheck use-package color-theme-sanityinc-tomorrow focus focus-mode sql-indent projectile clj-refactor clojure-snippets yasnippet git-blame clojure-cheatsheet align-cljlet smartparens multiple-cursors idle-highlight-mode hl-sexp ac-cider cider auto-complete expand-region golden-ratio magit git-gutter undo-tree fill-column-indicator ample-theme))
+ '(vc-annotate-background nil)
+ '(vc-annotate-color-map
+   '((20 . "#f2777a")
+     (40 . "#f99157")
+     (60 . "#ffcc66")
+     (80 . "#99cc99")
+     (100 . "#66cccc")
+     (120 . "#6699cc")
+     (140 . "#cc99cc")
+     (160 . "#f2777a")
+     (180 . "#f99157")
+     (200 . "#ffcc66")
+     (220 . "#99cc99")
+     (240 . "#66cccc")
+     (260 . "#6699cc")
+     (280 . "#cc99cc")
+     (300 . "#f2777a")
+     (320 . "#f99157")
+     (340 . "#ffcc66")
+     (360 . "#99cc99")))
+ '(vc-annotate-very-old-color nil))
 
 
 ;; =================================
@@ -531,38 +544,69 @@
 (install-package-and-require 'imenu-anywhere)
 (global-set-key (kbd "C-.") #'ido-imenu-anywhere)
 
-
-
-
 ;; =================================
 ;; doc-view settings
 ;; =================================
 (setq doc-view-ghostscript-program "/usr/local/bin/gs")
 
-
+;; =================================
+;; flycheck
+;; =================================
+(install-package-and-require 'flycheck)
+(global-flycheck-mode 1)
 
 
 ;; =================================
 ;; go-mode
 ;; =================================
 (install-package-and-require 'go-mode)
+(add-hook 'go-mode-hook (lambda ()
+                          (setq tab-width 4)))
 
 
+;; =================================
+;; lsp-mode
+;; =================================
+(install-package-and-require 'lsp-mode)
+(add-hook 'go-mode-hook #'lsp)
+(add-hook 'clojure-mode-hook #'lsp)
 
 ;; =================================
 ;; auctex
 ;; =================================
 ;;(install-package-and-require 'auctex)
 
+;; =================================
+;; lsp-java
+;; =================================
+;; (condition-case nil
+;;     (require 'use-package)
+;;   (file-error
+;;    (require 'package)
+;;    (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
+;;    (package-initialize)
+;;    (package-refresh-contents)
+;;    (package-install 'use-package)
+;;    (setq use-package-always-ensure t)
+;;    (require 'use-package)))
 
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(package-selected-packages
-   (quote
-    (focus focus-mode sql-indent projectile clj-refactor clojure-snippets yasnippet git-blame clojure-cheatsheet align-cljlet smartparens multiple-cursors idle-highlight-mode hl-sexp ac-cider cider auto-complete expand-region golden-ratio magit git-gutter undo-tree fill-column-indicator ample-theme))))
+;; (use-package projectile)
+ ;; (use-package flycheck)
+ ;; (use-package yasnippet :config (yas-global-mode))
+ ;; (use-package lsp-mode :hook ((lsp-mode . lsp-enable-which-key-integration))
+ ;;   :config (setq lsp-completion-enable-additional-text-edit nil))
+;; (use-package hydra)
+;; (use-package company)
+;; (use-package lsp-ui)
+;; (use-package which-key :config (which-key-mode))
+;; (use-package lsp-java :config (add-hook 'java-mode-hook 'lsp))
+;; (use-package dap-mode :after lsp-mode :config (dap-auto-configure-mode))
+;; (use-package dap-java :ensure nil)
+;; (use-package helm-lsp)
+;; (use-package helm
+;;   :config (helm-mode))
+;; (use-package lsp-treemacs)
+
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -572,3 +616,4 @@
 (put 'upcase-region 'disabled nil)
 (put 'narrow-to-region 'disabled nil)
 (put 'narrow-to-page 'disabled nil)
+(put 'set-goal-column 'disabled nil)

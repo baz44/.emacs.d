@@ -18,3 +18,8 @@ projectile-bookmarks.eld
 projectile.cache
 url/*
 recentf
+.cache
+projects_configs.el
+.lsp-session-v1
+transient
+workspace
