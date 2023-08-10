@@ -26,11 +26,13 @@
 ;; no need to see the start up screen
 (setq inhibit-startup-screen t)
 
+(setq image-types '(svg png gif tiff jpeg xpm xbm pbm))
+
 ;; disable the menu-bar
 (menu-bar-mode 0)
 
 (when (display-graphic-p)
-  ;; disable the tool-bar
+  ;; enable the tool-bar in UI mode
   (setq tool-bar-mode -1)
 
   ;; disable the scroll-bar
@@ -70,8 +72,6 @@
 
 ;; no bell please
 (setq visible-bell 1)
-
-(setq image-types '(svg png gif tiff jpeg xpm xbm pbm))
 
 ;; =================================
 ;; self installed packages
@@ -570,6 +570,31 @@
 (add-hook 'go-mode-hook #'lsp)
 (add-hook 'clojure-mode-hook #'lsp)
 
+(setq display-time-mode t)
+
+
+;; =================================
+;; org-mode settings
+;; =================================
+(setq org-log-done 'time)
+
+
+
+;; =================================
+;; deft
+;; =================================
+(install-package-and-require 'deft)
+(setq deft-directory "~/icloud/notes")
+(setq deft-recursive t)
+
+
+;; =================================
+;; rust-mode
+;; =================================
+(install-package-and-require 'rust-mode)
+(add-hook 'rust-mode-hook 'lsp-deferred)
+
+
 ;; =================================
 ;; auctex
 ;; =================================
@@ -625,7 +650,10 @@
  '(custom-safe-themes
    '("4cf3221feff536e2b3385209e9b9dc4c2e0818a69a1cdb4b522756bcdf4e00a4" "4aee8551b53a43a883cb0b7f3255d6859d766b6c5e14bcb01bed572fcbef4328" default))
  '(fci-rule-color "#515151")
- '(markdown-command "/usr/local/bin/markdown"))
+ '(markdown-command "/usr/local/bin/markdown")
+ '(org-agenda-files '("~/iCloud/Private/tasks.org"))
+ '(package-selected-packages
+   '(rust-mode delight lsp-mode yasnippet lsp-treemacs helm-lsp projectile hydra flycheck company avy which-key helm-xref dap-mode lsp-ui)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
