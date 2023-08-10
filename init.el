@@ -26,11 +26,13 @@
 ;; no need to see the start up screen
 (setq inhibit-startup-screen t)
 
+(setq image-types '(svg png gif tiff jpeg xpm xbm pbm))
+
 ;; disable the menu-bar
 (menu-bar-mode 0)
 
 (when (display-graphic-p)
-  ;; disable the tool-bar
+  ;; enable the tool-bar in UI mode
   (setq tool-bar-mode -1)
 
   ;; disable the scroll-bar
@@ -40,7 +42,14 @@
   (tool-bar-mode -1))
 
 ;; set font size
-(set-face-attribute 'default nil :height 250)
+(set-face-attribute
+ 'default nil
+ :height (if (= (display-pixel-width) 1280)
+             150
+           250))
+
+(display-pixel-width)
+
 
 ;; fix the # key
 (fset 'insertPound "#")
@@ -64,7 +73,6 @@
 ;; no bell please
 (setq visible-bell 1)
 
-
 ;; =================================
 ;; self installed packages
 ;; =================================
@@ -75,12 +83,13 @@
 ;; Package
 ;; =================================
 (require 'package)
+(add-to-list 'package-archives
+	     '("marmalade" . "http://marmalade-repo.org/packages/"))
 
 (add-to-list 'package-archives
              '("melpa" . "https://stable.melpa.org/packages/") t)
 
-(add-to-list 'package-archives
-	     '("marmalade" . "http://marmalade-repo.org/packages/"))
+
 
 (package-initialize)
 
@@ -95,12 +104,10 @@
 
 
 ;; =================================
-;; color-theme-tomorrow
-;; located in ~/.emacs.d/self_installs/
-;; available options: night, day, night-eighties, night-blue and night-bright
+;; color-theme-sanityinc-solarized
 ;; =================================
-(require 'color-theme-tomorrow)
-(color-theme-tomorrow--define-theme night-bright)
+(install-package-and-require 'color-theme-sanityinc-solarized)
+
 
 ;; =================================
 ;; fill-column-indicator
@@ -476,16 +483,16 @@
 ;; =================================
 ;; ejc-sql
 ;; =================================
-(install-package-and-require 'ejc-sql)
+;; (install-package-and-require 'ejc-sql)
 
-(setq clomacs-httpd-default-port 8090)
+;; (setq clomacs-httpd-default-port 8090)
 
-(require 'ejc-autocomplete)
+;; (require 'ejc-autocomplete)
 
-(add-hook 'ejc-sql-minor-mode-hook
-          (lambda ()
-            (auto-complete-mode t)
-            (ejc-ac-setup)))
+;; (add-hook 'ejc-sql-minor-mode-hook
+;;           (lambda ()
+;;             (auto-complete-mode t)
+;;             (ejc-ac-setup)))
 
 ;;(setq ejc-use-flx nil)
 
@@ -493,47 +500,9 @@
 ;; =================================
 ;; indivisual command to move to projects
 ;; =================================
-(load-file "~/.emacs.d/projects_configs.el")
-
-
-
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(ansi-color-faces-vector
-   [default bold shadow italic underline bold bold-italic bold])
- '(ansi-color-names-vector
-   (vector "#cccccc" "#f2777a" "#99cc99" "#ffcc66" "#6699cc" "#cc99cc" "#66cccc" "#515151"))
- '(custom-enabled-themes '(sanityinc-tomorrow-bright))
- '(custom-safe-themes
-   '("1b8d67b43ff1723960eb5e0cba512a2c7a2ad544ddb2533a90101fd1852b426e" "628278136f88aa1a151bb2d6c8a86bf2b7631fbea5f0f76cba2a0079cd910f7d" "82d2cac368ccdec2fcc7573f24c3f79654b78bf133096f9b40c20d97ec1d8016" "bb08c73af94ee74453c90422485b29e5643b73b05e8de029a6909af6a3fb3f58" "06f0b439b62164c6f8f84fdda32b62fb50b6d00e8b01c2208e55543a6337433a" default))
- '(fci-rule-color "#515151")
- '(markdown-command "/usr/local/bin/markdown")
- '(package-selected-packages
-   '(yasnippet-snippets go-snippets ejc-sql exec-path-from-shell helm-lsp lsp-java which-key lsp-ui company lsp-mode flycheck use-package color-theme-sanityinc-tomorrow focus focus-mode sql-indent projectile clj-refactor clojure-snippets yasnippet git-blame clojure-cheatsheet align-cljlet smartparens multiple-cursors idle-highlight-mode hl-sexp ac-cider cider auto-complete expand-region golden-ratio magit git-gutter undo-tree fill-column-indicator ample-theme))
- '(vc-annotate-background nil)
- '(vc-annotate-color-map
-   '((20 . "#f2777a")
-     (40 . "#f99157")
-     (60 . "#ffcc66")
-     (80 . "#99cc99")
-     (100 . "#66cccc")
-     (120 . "#6699cc")
-     (140 . "#cc99cc")
-     (160 . "#f2777a")
-     (180 . "#f99157")
-     (200 . "#ffcc66")
-     (220 . "#99cc99")
-     (240 . "#66cccc")
-     (260 . "#6699cc")
-     (280 . "#cc99cc")
-     (300 . "#f2777a")
-     (320 . "#f99157")
-     (340 . "#ffcc66")
-     (360 . "#99cc99")))
- '(vc-annotate-very-old-color nil))
+(let ((location "~/.emacs.d/projects_configs.el"))
+  (when (file-exists-p location)
+    (load-file location)))
 
 
 ;; =================================
@@ -563,13 +532,68 @@
 (add-hook 'go-mode-hook (lambda ()
                           (setq tab-width 4)))
 
-
 ;; =================================
 ;; lsp-mode
 ;; =================================
 (install-package-and-require 'lsp-mode)
+
+(setq package-selected-packages '(lsp-mode yasnippet lsp-treemacs helm-lsp
+    projectile hydra flycheck company avy which-key helm-xref dap-mode lsp-ui))
+
+(when (cl-find-if-not #'package-installed-p package-selected-packages)
+  ;;(package-refresh-contents)
+  (mapc #'package-install package-selected-packages))
+
+(which-key-mode)
+
+(setq gc-cons-threshold (* 100 1024 1024)
+      read-process-output-max (* 1024 1024)
+      treemacs-space-between-root-nodes nil
+      company-idle-delay 0.0
+      company-minimum-prefix-length 1
+      lsp-idle-delay 0.1)  ;; clangd is fast
+
+(with-eval-after-load 'lsp-mode
+  (add-hook 'lsp-mode-hook #'lsp-enable-which-key-integration)
+  (require 'dap-cpptools)
+  (yas-global-mode))
+
+;; show inline warnings
+(setq lsp-ui-sideline-enable t)
+
+(require 'company)
+;; maps C-n and C-p instead of M-n M-p when selecting an option in company-mode
+(define-key company-active-map (kbd "C-n") 'company-select-next-or-abort)
+(define-key company-active-map (kbd "C-p") 'company-select-previous-or-abort)
+
+;; enable it for these languages
 (add-hook 'go-mode-hook #'lsp)
 (add-hook 'clojure-mode-hook #'lsp)
+
+(setq display-time-mode t)
+
+
+;; =================================
+;; org-mode settings
+;; =================================
+(setq org-log-done 'time)
+
+
+
+;; =================================
+;; deft
+;; =================================
+(install-package-and-require 'deft)
+(setq deft-directory "~/icloud/notes")
+(setq deft-recursive t)
+
+
+;; =================================
+;; rust-mode
+;; =================================
+(install-package-and-require 'rust-mode)
+(add-hook 'rust-mode-hook 'lsp-deferred)
+
 
 ;; =================================
 ;; auctex
@@ -607,13 +631,32 @@
 ;;   :config (helm-mode))
 ;; (use-package lsp-treemacs)
 
+(put 'upcase-region 'disabled nil)
+(put 'narrow-to-region 'disabled nil)
+(put 'narrow-to-page 'disabled nil)
+(put 'set-goal-column 'disabled nil)
+
+
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(ansi-color-faces-vector
+   [default bold shadow italic underline bold bold-italic bold])
+ '(ansi-color-names-vector
+   (vector "#cccccc" "#f2777a" "#99cc99" "#ffcc66" "#6699cc" "#cc99cc" "#66cccc" "#515151"))
+ '(custom-enabled-themes '(sanityinc-solarized-dark))
+ '(custom-safe-themes
+   '("4cf3221feff536e2b3385209e9b9dc4c2e0818a69a1cdb4b522756bcdf4e00a4" "4aee8551b53a43a883cb0b7f3255d6859d766b6c5e14bcb01bed572fcbef4328" default))
+ '(fci-rule-color "#515151")
+ '(markdown-command "/usr/local/bin/markdown")
+ '(org-agenda-files '("~/iCloud/Private/tasks.org"))
+ '(package-selected-packages
+   '(rust-mode delight lsp-mode yasnippet lsp-treemacs helm-lsp projectile hydra flycheck company avy which-key helm-xref dap-mode lsp-ui)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
-(put 'upcase-region 'disabled nil)
-(put 'narrow-to-region 'disabled nil)
-(put 'narrow-to-page 'disabled nil)
-(put 'set-goal-column 'disabled nil)
