@@ -1,6 +1,3 @@
-
-
-
 ;; =================================
 ;; Emacs settings for Basel Farah
 ;; =================================
@@ -32,7 +29,7 @@
 
 ;; disable the menu-bar
 (menu-bar-mode 0)
-
+v
 (when (display-graphic-p)
   ;; enable the tool-bar in UI mode
   (setq tool-bar-mode -1)
@@ -187,7 +184,6 @@
  (lambda ()
    (interactive) (call-interactively
                   (intern (ido-completing-read "M-x " (all-completions "" obarray 'commandp))))))
-
 
 
 
@@ -506,51 +502,6 @@
                           (setq tab-width 4)))
 
 ;; =================================
-;; lsp-mode
-;; =================================
-;; (install-package-and-require 'lsp-mode)
-
-;; (setq package-selected-packages '(lsp-mode yasnippet lsp-treemacs helm-lsp
-;;     projectile hydra flycheck company avy which-key helm-xref dap-mode lsp-ui))
-
-;; (when (cl-find-if-not #'package-installed-p package-selected-packages)
-;;   ;;(package-refresh-contents)
-;;   (mapc #'package-install package-selected-packages))
-
-;; (which-key-mode)
-
-;; (setq gc-cons-threshold (* 100 1024 1024)
-;;       read-process-output-max (* 1024 1024)
-;;       treemacs-space-between-root-nodes nil
-;;       company-idle-delay 0.0
-;;       company-minimum-prefix-length 1
-;;       lsp-idle-delay 0.1)  ;; clangd is fast
-
-;; (with-eval-after-load 'lsp-mode
-;;   (add-hook 'lsp-mode-hook #'lsp-enable-which-key-integration)
-;;   (require 'dap-cpptools)
-;;   (yas-global-mode))
-
-;; ;; show inline warnings
-;; (setq lsp-ui-sideline-enable t)
-
-;; (require 'company)
-;; ;; maps C-n and C-p instead of M-n M-p when selecting an option in company-mode
-;; (define-key company-active-map (kbd "C-n") 'company-select-next-or-abort)
-;; (define-key company-active-map (kbd "C-p") 'company-select-previous-or-abort)
-
-;; ;; enable it for these languages
-;; (add-hook 'go-mode-hook #'lsp)
-;; (add-hook 'clojure-mode-hook #'lsp)
-;; (add-hook 'typescript-mode-hook #'lsp)
-;; (add-hook 'javascript-mode-hook #'lsp)
-
-;; (setq display-time-mode t)
-
-;; (setq lsp-completion-provider :none)
-
-
-;; =================================
 ;; eglot
 ;; =================================
 (install-package-and-require 'eglot)
@@ -573,7 +524,6 @@
 (setq org-log-done 'time)
 
 
-
 ;; =================================
 ;; deft
 ;; =================================
@@ -587,7 +537,6 @@
 ;; =================================
 (install-package-and-require 'rust-mode)
 (add-hook 'rust-mode-hook 'lsp-deferred)
-
 
 
 ;; =================================
