@@ -1,4 +1,6 @@
 
+
+
 ;; =================================
 ;; Emacs settings for Basel Farah
 ;; =================================
@@ -84,11 +86,13 @@
 ;; =================================
 (require 'package)
 (add-to-list 'package-archives
-	     '("marmalade" . "http://marmalade-repo.org/packages/"))
+             '("melpa" . "https://melpa.org/packages/") t)
 
 (add-to-list 'package-archives
-             '("melpa" . "https://stable.melpa.org/packages/") t)
+             '("elpa" . "https://elpa.gnu.org/packages/") t)
 
+(add-to-list 'package-archives
+	     '("marmalade" . "http://marmalade-repo.org/packages/") t)
 
 
 (package-initialize)
@@ -102,6 +106,11 @@
     (package-install p))
     (require p))
 
+
+;; =================================
+;; use-package
+;; =================================
+(install-package-and-require 'use-package)
 
 ;; =================================
 ;; color-theme-sanityinc-solarized
@@ -347,7 +356,6 @@
 (global-set-key (kbd "C-c C-r")  'run-rspec)
 
 
-
 ;; =================================
 ;; clojure indentation settings
 ;; =================================
@@ -361,27 +369,10 @@
   (ANY 2)
   (context 2))
 
-
-
 ;; =================================
 ;; clj-refactor
 ;; =================================
 (install-package-and-require 'clj-refactor)
-
-(defun my-clojure-mode-hook ()
-  (clj-refactor-mode 1)
-  (yas-minor-mode 1) ; for adding require/use/import
-  (cljr-add-keybindings-with-prefix "C-c C-m"))
-
-(add-hook 'clojure-mode-hook #'my-clojure-mode-hook)
-
-
-
-;; =================================
-;; clojure-cheatsheet
-;; =================================
-;(install-package-and-require 'clojure-cheatsheet)
-
 
 
 ;; =================================
@@ -465,7 +456,6 @@
 (install-package-and-require 'ag)
 
 
-
 ;; =================================
 ;; markdown-mode
 ;; =================================
@@ -478,23 +468,6 @@
 
 (when (memq window-system '(mac ns x))
   (exec-path-from-shell-initialize))
-
-
-;; =================================
-;; ejc-sql
-;; =================================
-;; (install-package-and-require 'ejc-sql)
-
-;; (setq clomacs-httpd-default-port 8090)
-
-;; (require 'ejc-autocomplete)
-
-;; (add-hook 'ejc-sql-minor-mode-hook
-;;           (lambda ()
-;;             (auto-complete-mode t)
-;;             (ejc-ac-setup)))
-
-;;(setq ejc-use-flx nil)
 
 
 ;; =================================
@@ -535,42 +508,63 @@
 ;; =================================
 ;; lsp-mode
 ;; =================================
-(install-package-and-require 'lsp-mode)
+;; (install-package-and-require 'lsp-mode)
 
-(setq package-selected-packages '(lsp-mode yasnippet lsp-treemacs helm-lsp
-    projectile hydra flycheck company avy which-key helm-xref dap-mode lsp-ui))
+;; (setq package-selected-packages '(lsp-mode yasnippet lsp-treemacs helm-lsp
+;;     projectile hydra flycheck company avy which-key helm-xref dap-mode lsp-ui))
 
-(when (cl-find-if-not #'package-installed-p package-selected-packages)
-  ;;(package-refresh-contents)
-  (mapc #'package-install package-selected-packages))
+;; (when (cl-find-if-not #'package-installed-p package-selected-packages)
+;;   ;;(package-refresh-contents)
+;;   (mapc #'package-install package-selected-packages))
 
-(which-key-mode)
+;; (which-key-mode)
 
-(setq gc-cons-threshold (* 100 1024 1024)
-      read-process-output-max (* 1024 1024)
-      treemacs-space-between-root-nodes nil
-      company-idle-delay 0.0
-      company-minimum-prefix-length 1
-      lsp-idle-delay 0.1)  ;; clangd is fast
+;; (setq gc-cons-threshold (* 100 1024 1024)
+;;       read-process-output-max (* 1024 1024)
+;;       treemacs-space-between-root-nodes nil
+;;       company-idle-delay 0.0
+;;       company-minimum-prefix-length 1
+;;       lsp-idle-delay 0.1)  ;; clangd is fast
 
-(with-eval-after-load 'lsp-mode
-  (add-hook 'lsp-mode-hook #'lsp-enable-which-key-integration)
-  (require 'dap-cpptools)
-  (yas-global-mode))
+;; (with-eval-after-load 'lsp-mode
+;;   (add-hook 'lsp-mode-hook #'lsp-enable-which-key-integration)
+;;   (require 'dap-cpptools)
+;;   (yas-global-mode))
 
-;; show inline warnings
-(setq lsp-ui-sideline-enable t)
+;; ;; show inline warnings
+;; (setq lsp-ui-sideline-enable t)
+
+;; (require 'company)
+;; ;; maps C-n and C-p instead of M-n M-p when selecting an option in company-mode
+;; (define-key company-active-map (kbd "C-n") 'company-select-next-or-abort)
+;; (define-key company-active-map (kbd "C-p") 'company-select-previous-or-abort)
+
+;; ;; enable it for these languages
+;; (add-hook 'go-mode-hook #'lsp)
+;; (add-hook 'clojure-mode-hook #'lsp)
+;; (add-hook 'typescript-mode-hook #'lsp)
+;; (add-hook 'javascript-mode-hook #'lsp)
+
+;; (setq display-time-mode t)
+
+;; (setq lsp-completion-provider :none)
+
+
+;; =================================
+;; eglot
+;; =================================
+(install-package-and-require 'eglot)
+(add-hook 'clojure-mode-hook 'eglot-ensure)
+(add-hook 'python-mode-hook 'eglot-ensure)
+(add-hook 'javascript-mode-hook 'eglot-ensure)
+(add-hook 'typescript-mode-hook 'eglot-ensure)
+(add-hook 'ruby-mode-hook 'eglot-ensure)
 
 (require 'company)
-;; maps C-n and C-p instead of M-n M-p when selecting an option in company-mode
+
+;; ;; maps C-n and C-p instead of M-n M-p when selecting an option in company-mode
 (define-key company-active-map (kbd "C-n") 'company-select-next-or-abort)
 (define-key company-active-map (kbd "C-p") 'company-select-previous-or-abort)
-
-;; enable it for these languages
-(add-hook 'go-mode-hook #'lsp)
-(add-hook 'clojure-mode-hook #'lsp)
-
-(setq display-time-mode t)
 
 
 ;; =================================
@@ -595,6 +589,7 @@
 (add-hook 'rust-mode-hook 'lsp-deferred)
 
 
+
 ;; =================================
 ;; flyspell
 ;; =================================
@@ -607,47 +602,18 @@
      (define-key flyspell-mouse-map [mouse-3] #'undefined)))
 
 
-;; =================================
-;; auctex
-;; =================================
-;;(install-package-and-require 'auctex)
-
-;; =================================
-;; lsp-java
-;; =================================
-;; (condition-case nil
-;;     (require 'use-package)
-;;   (file-error
-;;    (require 'package)
-;;    (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
-;;    (package-initialize)
-;;    (package-refresh-contents)
-;;    (package-install 'use-package)
-;;    (setq use-package-always-ensure t)
-;;    (require 'use-package)))
-
-;; (use-package projectile)
- ;; (use-package flycheck)
- ;; (use-package yasnippet :config (yas-global-mode))
- ;; (use-package lsp-mode :hook ((lsp-mode . lsp-enable-which-key-integration))
- ;;   :config (setq lsp-completion-enable-additional-text-edit nil))
-;; (use-package hydra)
-;; (use-package company)
-;; (use-package lsp-ui)
-;; (use-package which-key :config (which-key-mode))
-;; (use-package lsp-java :config (add-hook 'java-mode-hook 'lsp))
-;; (use-package dap-mode :after lsp-mode :config (dap-auto-configure-mode))
-;; (use-package dap-java :ensure nil)
-;; (use-package helm-lsp)
-;; (use-package helm
-;;   :config (helm-mode))
-;; (use-package lsp-treemacs)
-
 (put 'upcase-region 'disabled nil)
 (put 'narrow-to-region 'disabled nil)
 (put 'narrow-to-page 'disabled nil)
 (put 'set-goal-column 'disabled nil)
 
+;; =================================
+;; vterm
+;; =================================
+(use-package vterm
+    :ensure t)
+
+;; ==== Everything else
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -665,7 +631,7 @@
  '(markdown-command "/usr/local/bin/markdown")
  '(org-agenda-files '("~/iCloud/Private/tasks.org"))
  '(package-selected-packages
-   '(rust-mode delight lsp-mode yasnippet lsp-treemacs helm-lsp projectile hydra flycheck company avy which-key helm-xref dap-mode lsp-ui)))
+   '(use-package vterm eglot js-snippets ts-snippets javascript-snippets rust-mode delight lsp-mode yasnippet lsp-treemacs helm-lsp projectile hydra flycheck company avy which-key helm-xref dap-mode lsp-ui)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
