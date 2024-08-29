@@ -1,3 +1,5 @@
+
+
 ;; =================================
 ;; Emacs settings for Basel Farah
 ;; =================================
@@ -29,7 +31,7 @@
 
 ;; disable the menu-bar
 (menu-bar-mode 0)
-v
+
 (when (display-graphic-p)
   ;; enable the tool-bar in UI mode
   (setq tool-bar-mode -1)
@@ -82,16 +84,9 @@ v
 ;; Package
 ;; =================================
 (require 'package)
-(add-to-list 'package-archives
-             '("melpa" . "https://melpa.org/packages/") t)
-
-(add-to-list 'package-archives
-             '("elpa" . "https://elpa.gnu.org/packages/") t)
-
-(add-to-list 'package-archives
-	     '("marmalade" . "http://marmalade-repo.org/packages/") t)
-
-
+(setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
+                         ("elpa" . "https://elpa.gnu.org/packages/")
+                         ("melpa" . "https://melpa.org/packages/")))
 (package-initialize)
 
 (unless package-archive-contents
@@ -136,14 +131,6 @@ v
 ;; =================================
 (install-package-and-require 'undo-tree)
 (global-undo-tree-mode t)
-
-
-;; =================================
-;; git-gutter
-;; =================================
-(install-package-and-require 'git-gutter)
-(global-git-gutter-mode t)
-
 
 
 ;; =================================
@@ -252,20 +239,6 @@ v
 
 
 ;; =================================
-;; ac-cider
-;; =================================
-(install-package-and-require 'ac-cider)
-(add-hook 'cider-mode-hook 'ac-flyspell-workaround)
-(add-hook 'cider-mode-hook 'ac-cider-setup)
-(add-hook 'cider-repl-mode-hook 'ac-cider-setup)
-(eval-after-load "auto-complete"
-  '(progn
-     (add-to-list 'ac-modes 'cider-mode)
-     (add-to-list 'ac-modes 'cider-repl-mode)))
-
-
-
-;; =================================
 ;; hl-sexp
 ;; =================================
 (require 'hl-sexp)
@@ -364,11 +337,6 @@ v
   (HEAD 2)
   (ANY 2)
   (context 2))
-
-;; =================================
-;; clj-refactor
-;; =================================
-(install-package-and-require 'clj-refactor)
 
 
 ;; =================================
@@ -511,7 +479,8 @@ v
 (add-hook 'typescript-mode-hook 'eglot-ensure)
 (add-hook 'ruby-mode-hook 'eglot-ensure)
 
-(require 'company)
+(use-package company
+    :ensure t)
 
 ;; ;; maps C-n and C-p instead of M-n M-p when selecting an option in company-mode
 (define-key company-active-map (kbd "C-n") 'company-select-next-or-abort)
@@ -563,27 +532,3 @@ v
     :ensure t)
 
 ;; ==== Everything else
-
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(ansi-color-faces-vector
-   [default bold shadow italic underline bold bold-italic bold])
- '(ansi-color-names-vector
-   (vector "#cccccc" "#f2777a" "#99cc99" "#ffcc66" "#6699cc" "#cc99cc" "#66cccc" "#515151"))
- '(custom-enabled-themes '(sanityinc-solarized-dark))
- '(custom-safe-themes
-   '("4cf3221feff536e2b3385209e9b9dc4c2e0818a69a1cdb4b522756bcdf4e00a4" "4aee8551b53a43a883cb0b7f3255d6859d766b6c5e14bcb01bed572fcbef4328" default))
- '(fci-rule-color "#515151")
- '(markdown-command "/usr/local/bin/markdown")
- '(org-agenda-files '("~/iCloud/Private/tasks.org"))
- '(package-selected-packages
-   '(use-package vterm eglot js-snippets ts-snippets javascript-snippets rust-mode delight lsp-mode yasnippet lsp-treemacs helm-lsp projectile hydra flycheck company avy which-key helm-xref dap-mode lsp-ui)))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
