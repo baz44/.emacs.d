@@ -1,5 +1,3 @@
-
-
 ;; =================================
 ;; Emacs settings for Basel Farah
 ;; =================================
@@ -91,6 +89,7 @@
 
 (unless package-archive-contents
   (package-refresh-contents))
+
 
 ;; helper function to install a package and then install requiring it
 (defun install-package-and-require (p)
@@ -193,23 +192,6 @@
 ;; auto revert
 ;; =================================
 (global-auto-revert-mode t)
-
-
-
-;; =================================
-;; auto complete
-;; =================================
-(install-package-and-require 'auto-complete)
-(ac-config-default)
-(global-auto-complete-mode t)
-(setq ac-auto-show-menu t)
-(setq ac-dwim t)
-(setq ac-use-menu-map t)
-(setq ac-delay 0.3)
-(setq ac-quick-help-delay 1)
-(setq ac-quick-help-height 60)
-
-
 
 ;; =================================
 ;; Cider
@@ -475,17 +457,32 @@
 (install-package-and-require 'eglot)
 (add-hook 'clojure-mode-hook 'eglot-ensure)
 (add-hook 'python-mode-hook 'eglot-ensure)
-(add-hook 'javascript-mode-hook 'eglot-ensure)
+(add-hook 'js-mode-hook 'eglot-ensure)
 (add-hook 'typescript-mode-hook 'eglot-ensure)
 (add-hook 'ruby-mode-hook 'eglot-ensure)
 
 (use-package company
     :ensure t)
 
+(add-hook 'js-mode-hook 'company-mode)
+(add-hook 'clojure-mode-hook 'company-mode)
+(add-hook 'python-mode-hook 'company-mode)
+(add-hook 'typescript-mode-hook 'company-mode)
+(add-hook 'ruby-mode-hook 'company-mode)
+
+
 ;; ;; maps C-n and C-p instead of M-n M-p when selecting an option in company-mode
 (define-key company-active-map (kbd "C-n") 'company-select-next-or-abort)
 (define-key company-active-map (kbd "C-p") 'company-select-previous-or-abort)
 
+
+(defun company-mode/backend-with-yas (backend)
+  (if (and (listp backend) (member 'company-yasnippet backend))
+      backend
+    (append (if (consp backend) backend (list backend))
+            '(:with company-yasnippet))))
+
+(setq company-backends (mapcar #'company-mode/backend-with-yas company-backends))
 
 ;; =================================
 ;; org-mode settings
