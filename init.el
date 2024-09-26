@@ -97,7 +97,6 @@
     (package-install p))
     (require p))
 
-
 ;; =================================
 ;; use-package
 ;; =================================
@@ -171,6 +170,10 @@
    (interactive) (call-interactively
                   (intern (ido-completing-read "M-x " (all-completions "" obarray 'commandp))))))
 
+(add-hook 'ido-setup-hook
+          (lambda ()
+            (define-key ido-completion-map (kbd "C-n") 'ido-next-match)
+            (define-key ido-completion-map (kbd "C-p") 'ido-prev-match)))
 
 
 ;; =================================
