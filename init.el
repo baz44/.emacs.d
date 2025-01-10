@@ -1,3 +1,4 @@
+
 ;; =================================
 ;; Emacs settings for Basel Farah
 ;; =================================
@@ -397,6 +398,34 @@
 (add-to-list 'load-path "/usr/local/share/emacs/site-lisp/")
 (require 'tramp)
 (setq tramp-default-method "sshx")
+(add-to-list 'tramp-remote-path 'tramp-own-remote-path)
+;; Backup (file~) disabled and auto-save (#file#) locally to prevent delays in editing remote files
+(add-to-list 'backup-directory-alist
+             (cons tramp-file-name-regexp nil))
+(setq tramp-auto-save-directory temporary-file-directory)
+(setq tramp-verbose 10)
+
+;; Open files in Docker containers like so: /docker:drunk_bardeen:/etc/passwd
+(push
+ (cons
+  "docker"
+  '((tramp-login-program "docker")
+    (tramp-login-args (("exec" "-it") ("%h") ("/bin/bash")))
+    (tramp-remote-shell "/bin/sh")
+    (tramp-remote-shell-args ("-i") ("-c"))))
+ tramp-methods)
+
+(defadvice tramp-completion-handle-file-name-all-completions
+  (around dotemacs-completion-docker activate)
+  "(tramp-completion-handle-file-name-all-completions \"\" \"/docker:\" returns
+    a list of active Docker container names, followed by colons."
+  (if (equal (ad-get-arg 1) "/docker:")
+      (let* ((dockernames-raw (shell-command-to-string "docker ps | awk '$NF != \"NAMES\" { print $NF \":\" }'"))
+             (dockernames (cl-remove-if-not
+                           #'(lambda (dockerline) (string-match ":$" dockerline))
+                           (split-string dockernames-raw "\n"))))
+        (setq ad-return-value dockernames))
+    ad-do-it))
 
 
 ;; =================================
@@ -465,7 +494,8 @@
 (add-hook 'ruby-mode-hook 'eglot-ensure)
 
 (use-package company
-    :ensure t)
+  :ensure t
+)
 
 (add-hook 'js-mode-hook 'company-mode)
 (add-hook 'clojure-mode-hook 'company-mode)
@@ -531,6 +561,13 @@
 (use-package vterm
     :ensure t)
 
+
+;; =================================
+;; ein
+;; =================================
+(use-package ein
+    :ensure t)
+
 ;; ==== Everything else
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -539,7 +576,9 @@
  ;; If there is more than one, they won't work right.
  '(custom-enabled-themes '(sanityinc-solarized-dark))
  '(custom-safe-themes
-   '("4aee8551b53a43a883cb0b7f3255d6859d766b6c5e14bcb01bed572fcbef4328" default)))
+   '("4aee8551b53a43a883cb0b7f3255d6859d766b6c5e14bcb01bed572fcbef4328" default))
+ '(package-selected-packages
+   '(ein yasnippet-snippets vterm undo-tree sql-indent smartparens rust-mode projectile multiple-cursors markdown-mode magit imenu-anywhere ido-vertical-mode idle-highlight-mode golden-ratio go-mode focus flycheck fill-column-indicator expand-region exec-path-from-shell deft company color-theme-sanityinc-solarized clojure-snippets cider ag)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
