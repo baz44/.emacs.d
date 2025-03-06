@@ -642,6 +642,29 @@ is available. Useful if you tend to hammer your keys like I do."
 (define-key global-map (kbd "M-C-<return>") #'rk/copilot-complete-or-accept)
 
 
+;; =================================
+;; copilot-chat
+;; =================================
+(install-package-and-require 'copilot-chat)
+
+
+;; =================================
+;; tree-sitter
+;; =================================
+(install-package-and-require 'tree-sitter)
+(install-package-and-require 'tree-sitter-langs)
+
+
+;; =================================
+;; typescript-mode
+;; =================================
+(install-package-and-require 'typescript-mode)
+(add-to-list 'auto-mode-alist '("\\.tsx\\'" . typescript-mode))
+(add-to-list 'auto-mode-alist '("\\.ts\\'" . typescript-mode))
+
+
+
+
 ;; ==== Everything else
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -652,7 +675,7 @@ is available. Useful if you tend to hammer your keys like I do."
  '(custom-safe-themes
    '("4aee8551b53a43a883cb0b7f3255d6859d766b6c5e14bcb01bed572fcbef4328" default))
  '(package-selected-packages
-   '(company-box copilot quelpa f editorconfig ein yasnippet-snippets vterm undo-tree sql-indent smartparens rust-mode projectile multiple-cursors markdown-mode magit imenu-anywhere ido-vertical-mode idle-highlight-mode golden-ratio go-mode focus flycheck fill-column-indicator expand-region exec-path-from-shell deft company color-theme-sanityinc-solarized clojure-snippets cider ag)))
+   '(typescript-mode tree-sitter-langs tree-sitter copilot-chat company-box copilot quelpa f editorconfig ein yasnippet-snippets vterm undo-tree sql-indent smartparens rust-mode projectile multiple-cursors markdown-mode magit imenu-anywhere ido-vertical-mode idle-highlight-mode golden-ratio go-mode focus flycheck fill-column-indicator expand-region exec-path-from-shell deft company color-theme-sanityinc-solarized clojure-snippets cider ag)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
